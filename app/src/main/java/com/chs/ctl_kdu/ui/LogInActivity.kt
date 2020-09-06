@@ -27,7 +27,7 @@ class LogInActivity : AppCompatActivity() {
             if(input_userId.text!!.trim().isNotEmpty() && input_userPw.text!!.trim().isNotEmpty()){
                 doLogIn(input_userId.text!!.trim().toString(),input_userPw.text!!.trim().toString())
             } else{
-                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요!!", Toast.LENGTH_SHORT).show()
             }
         }
     }
