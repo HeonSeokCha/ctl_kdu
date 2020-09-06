@@ -20,34 +20,25 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
+    private val jsessionId:String by lazy { intent.getStringExtra("jsessionId")!! }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val retrofit = Retrofit.Builder()
             .baseUrl("https://ctl.kduniv.ac.kr/")
             .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         val service = retrofit.create(retrofitApi::class.java)
-        var sessionId:String = "기본값"
 
-        service.doLogin("1524037", "12345qwer!", "UN").enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                sessionId = response.headers()["Set-Cookie"]!!.split(";")[0]
-                Log.d("Success", response.headers()["Set-Cookie"]!!.split(";")[0])
-            }
-
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                Log.d("Failed", t.localizedMessage)
-                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_SHORT).show()
-            }
-        })
         btn_OK.setOnClickListener {
             CoroutineScope(IO).launch {
                 val response = Jsoup.connect("https://ctl.kduniv.ac.kr//lms/myLecture/doListView.dunet?mnid=201008840728")
-                    .header("Cookie",sessionId)
+                    .header("Cookie",jsessionId)
                     .get()
                 val contentData:Elements = response.select("div.lecture_pos_box ul li")
                 Log.d("HTML",contentData.toString())
