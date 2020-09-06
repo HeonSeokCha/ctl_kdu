@@ -29,7 +29,7 @@ interface CtlApi {
     companion object {
         private const val BASE_URL: String = "https://ctl.kduniv.ac.kr"
 
-        private val cookieManager = CookieManager()
+        private val cookieManager:CookieManager by lazy { CookieManager() }
 
         fun create(): CtlApi {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -39,7 +39,7 @@ interface CtlApi {
 
             val client = OkHttpClient.Builder()
                 .cookieJar(JavaNetCookieJar(cookieManager))
-                .addInterceptor(httpLoggingInterceptor)
+//                .addInterceptor(httpLoggingInterceptor)
                 .build()
 
             return Retrofit.Builder()

@@ -30,8 +30,8 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun doLogin(userId: String, userPw: String) {
-        viewmodel.Login(userId, userPw).observe(this, Observer {
-            if (it) {
+        viewmodel.Login(userId, userPw).observe(this, Observer {result->
+            if (result) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

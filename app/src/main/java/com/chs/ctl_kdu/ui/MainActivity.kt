@@ -1,38 +1,35 @@
 package com.chs.ctl_kdu.ui
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.chs.ctl_kdu.R
-import com.chs.ctl_kdu.retrofitServices.CtlApi
+import com.chs.ctl_kdu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
 import org.jsoup.Jsoup
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.jsoup.select.Elements
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewmodel:MainViewModel
+    private lateinit var doc:Elements
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(Application())
+            .create(MainViewModel::class.java)
 
-        val api = CtlApi.create()
+        initClick()
+    }
 
+    private fun initClick(){
         btn_OK.setOnClickListener {
-            api.doListView("201008840728").enqueue(object: Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    val parse = Jsoup.parse(response.toString())
-                    Log.d("Success", parse.toString())
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("Failed",t.localizedMessage)
-                }
+            viewmodel.getList().observe(this, Observer {response->
+                Log.d("Response",response)
+                test.text = Jsoup.parse(response).text().toString()
             })
         }
     }
