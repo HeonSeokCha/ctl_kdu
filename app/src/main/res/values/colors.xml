@@ -6,4 +6,5 @@
     <color name="white">#ffffff</color>
     <color name="logInBtn">#92B3E0</color>
     <color name="logInBg">#dddddd</color>
+    <color name="classRoomBottom">#eeeeee</color>
 </resources>

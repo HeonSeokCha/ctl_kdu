@@ -13,16 +13,21 @@ import retrofit2.Response
 class LogInViewModel:ViewModel(){
     private val api = CtlApi.create()
 
-    fun Login(userId: String, userPw: String): LiveData<Boolean> {
-        val ret = MutableLiveData<Boolean>()
+    fun Login(userId: String, userPw: String): LiveData<Map<String,String>> {
+        val ret = MutableLiveData<Map<String,String>>()
         api.doLogin(userId, userPw, "UN").enqueue(object: Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                ret.value = true
+
+                ret.value = mutableMapOf(
+                    "userName" to response.body()!!.userMap.userName,
+                    "deptNm" to response.body()!!.userMap.deptNm,
+                    "userNo" to response.body()!!.userMap.userNo
+                )
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.d("Failed", t.localizedMessage)
-                ret.value = false
+                ret.value = mutableMapOf("userName" to "")
             }
         })
         return ret

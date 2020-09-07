@@ -10,6 +10,7 @@ import com.chs.ctl_kdu.R
 import com.chs.ctl_kdu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
 
@@ -21,16 +22,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(Application())
             .create(MainViewModel::class.java)
-
+        initView()
         initClick()
     }
 
     private fun initClick(){
-        btn_OK.setOnClickListener {
-            viewmodel.getList().observe(this, Observer {response->
-                Log.d("Response",response)
-                test.text = Jsoup.parse(response).text().toString()
-            })
+        viewmodel.getList().observe(this, Observer {response->
+            val a:Document = Jsoup.parse(response)
+
+            Log.d("Response","abc"+a.select("li.box_li")[0].select("div.accordion a").toString())
+        })
+    }
+
+    private fun initView(){
+        if(intent.hasExtra("userName")){
+            userName.text = intent.getStringExtra("userName")
+            userNo.text = intent.getStringExtra("userNo")
+            userDeptName.text = intent.getStringExtra("deptNm")
         }
     }
 }
