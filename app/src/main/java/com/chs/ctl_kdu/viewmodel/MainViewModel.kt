@@ -17,11 +17,11 @@ class MainViewModel:ViewModel() {
 
     fun getClassRoom():LiveData<List<ClassRoom>>{
         val ret = MutableLiveData<List<ClassRoom>>()
+
         api.doListView("201008840728").enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if(response.isSuccessful){
                     val doc = Jsoup.parse(response.body()!!.string())
-                    Log.d("Count",doc.select("li.box_li").indices.toString())
                     with(doc.select("li.box_li")) {
                         for(i in this.indices){
                             ret.value = listOf(ClassRoom(
@@ -29,13 +29,11 @@ class MainViewModel:ViewModel() {
                                 title = this[i].select("div.accordion a strong").text(),
                                 professor = this[i].select("div.accordion a span.term").text(),
                                 credit = this[i].select("div.accordion a span.place").text(),
-                                lec_type = this[i].select("div.accordion span.lec_type").text(),
-                            ))
+                                lec_type = this[i].select("div.accordion span.lec_type").text()))
                         }
                     }
                 }
             }
-
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 ret.value = listOf(ClassRoom())
             }

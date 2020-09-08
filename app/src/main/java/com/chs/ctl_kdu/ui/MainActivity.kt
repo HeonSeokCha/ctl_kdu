@@ -2,25 +2,20 @@ package com.chs.ctl_kdu.ui
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chs.ctl_kdu.R
-import com.chs.ctl_kdu.adapter.classRoomAdapter
+import com.chs.ctl_kdu.adapter.ClassRoomAdapter
 import com.chs.ctl_kdu.adapter.dto.ClassRoom
 import com.chs.ctl_kdu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewmodel:MainViewModel
-    private lateinit var classRoomAdapter: classRoomAdapter
+    private lateinit var ClassRoomAdapter: ClassRoomAdapter
     private lateinit var classList:MutableList<ClassRoom>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +35,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getList(){
-        viewmodel.getClassRoom().observe(this, Observer {list->
-            if(list.isNotEmpty()){
-                Log.d("List",list[0].title+"tnlkqkf")
-                classList.addAll(list)
-                classRoomAdapter.notifyDataSetChanged()
-            }
-        })
-    }
-
     private fun initRecyclerView(){
         classList = mutableListOf()
-        classRoomAdapter = classRoomAdapter(classList)
+        ClassRoomAdapter = ClassRoomAdapter(classList){ }
         Rv_classRoom.apply {
             this.layoutManager = LinearLayoutManager(this@MainActivity)
-            this.adapter = classRoomAdapter
+            this.adapter = ClassRoomAdapter
             this.setHasFixedSize(true)
         }
         getList()
+    }
+
+    private fun getList(){
+        viewmodel.getClassRoom().observe(this, Observer {list->
+            if(list.isNotEmpty()){
+                classList.addAll(list)
+                ClassRoomAdapter.notifyDataSetChanged()
+            }
+        })
     }
 }
