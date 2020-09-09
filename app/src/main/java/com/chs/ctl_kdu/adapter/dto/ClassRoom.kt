@@ -1,7 +1,8 @@
 package com.chs.ctl_kdu.adapter.dto
 
 data class ClassRoom(
-    val url:String = "",
+    val course_id:String = "",
+    val class_no:String = "",
     val title:String = "",
     val professor:String = "",
     val credit:String = "",

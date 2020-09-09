@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView(){
         classList = mutableListOf()
-        ClassRoomAdapter = ClassRoomAdapter(classList){ }
+        ClassRoomAdapter = ClassRoomAdapter(classList){
+
+        }
         Rv_classRoom.apply {
             this.layoutManager = LinearLayoutManager(this@MainActivity)
             this.adapter = ClassRoomAdapter

@@ -1,6 +1,5 @@
 package com.chs.ctl_kdu.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +24,8 @@ class MainViewModel:ViewModel() {
                     with(doc.select("li.box_li")) {
                         for(i in this.indices){
                             ret.value = listOf(ClassRoom(
-                                url = this[i].select("div.accordion a").attr("href").split("'")[1],
+                                course_id = this[i].select("div.accordion a").attr("href").split("'")[1],
+                                class_no = this[i].select("div.accordion a").attr("href").split("'")[3],
                                 title = this[i].select("div.accordion a strong").text(),
                                 professor = this[i].select("div.accordion a span.term").text(),
                                 credit = this[i].select("div.accordion a span.place").text(),

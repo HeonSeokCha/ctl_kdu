@@ -16,14 +16,22 @@ interface CtlApi {
     @FormUrlEncoded
     @POST("login/doLogin.dunet")
     fun doLogin(
-        @Field("user_id") userId: String,
-        @Field("user_password") userPassword: String,
-        @Field("group_cd") groupCode: String
+        @Field("user_id") userId:String,
+        @Field("user_password") userPassword:String,
+        @Field("group_cd") groupCode:String
     ): Call<User>
 
     @GET("lms/myLecture/doListView.dunet")
     fun doListView(
-        @Query("mnid") mnid: String
+        @Query("mnid") mnid:String
+    ): Call<ResponseBody>
+
+    @GET("/lms/class/classroom/doViewClassRoom.dunet")
+    fun doClassRoom(
+        @Query("mnid") mnid:String,
+        @Query("course_id") course_id:String,
+        @Query("class_no") class_no:String,
+        @Query("change_role_no") change_role_no:String
     ): Call<ResponseBody>
 
     companion object {
