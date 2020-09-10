@@ -18,14 +18,14 @@ class ClassRoomAdapter(private val item:List<ClassRoom>,
             clickListener.invoke(
                 item[viewHolder.adapterPosition].course_id,
                 item[viewHolder.adapterPosition].class_no)
-        }
+}
 
-        return viewHolder
-    }
+return viewHolder
+}
 
-    override fun onBindViewHolder(holder: ClassRoomViewHolder, position: Int) {
-        holder.binding.data = item[position]
-    }
+override fun onBindViewHolder(holder: ClassRoomViewHolder, position: Int) {
+    holder.binding.data = item[position]
+}
 
-    override fun getItemCount(): Int = item.size
+override fun getItemCount(): Int = item.size
 }

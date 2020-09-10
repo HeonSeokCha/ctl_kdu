@@ -27,7 +27,7 @@ interface CtlApi {
     ): Call<ResponseBody>
 
     @GET("/lms/class/classroom/doViewClassRoom.dunet")
-    fun doClassRoom(
+    fun goClassRoom(
         @Query("mnid") mnid:String,
         @Query("course_id") course_id:String,
         @Query("class_no") class_no:String,

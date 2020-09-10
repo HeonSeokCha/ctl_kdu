@@ -1,6 +1,7 @@
 package com.chs.ctl_kdu.ui
 
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -37,8 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView(){
         classList = mutableListOf()
-        ClassRoomAdapter = ClassRoomAdapter(classList){
-
+        ClassRoomAdapter = ClassRoomAdapter(classList){course_id,class_no->
+            val intent = Intent(this,ClassRoomActivity::class.java)
+            intent.putExtra("course_id",course_id)
+            intent.putExtra("class_no",class_no)
+            startActivity(intent)
         }
         Rv_classRoom.apply {
             this.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getList(){
-        viewmodel.getClassRoom().observe(this, Observer {list->
+        viewmodel.getClassRoom().observe(this, Observer { list->
             if(list.isNotEmpty()){
                 classList.addAll(list)
                 ClassRoomAdapter.notifyDataSetChanged()
