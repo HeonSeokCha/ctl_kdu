@@ -47,7 +47,7 @@ interface CtlApi {
 
             val client = OkHttpClient.Builder()
                 .cookieJar(JavaNetCookieJar(cookieManager))
-//                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(httpLoggingInterceptor)
                 .build()
 
             return Retrofit.Builder()

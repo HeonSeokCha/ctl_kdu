@@ -17,7 +17,9 @@ class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(Application())
+        viewmodel = ViewModelProvider
+            .AndroidViewModelFactory
+            .getInstance(Application())
             .create(LogInViewModel::class.java)
 
         btn_do_login.setOnClickListener {
@@ -30,7 +32,7 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun doLogin(userId: String, userPw: String) {
-        viewmodel.Login(userId, userPw).observe(this, Observer {result->
+        viewmodel.Login(userId, userPw).observe(this, Observer { result ->
             if (result["userName"]?.isNotEmpty()!!) {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("userName",result["userName"])
