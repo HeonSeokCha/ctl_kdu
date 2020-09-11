@@ -16,20 +16,28 @@ interface CtlApi {
     @FormUrlEncoded
     @POST("login/doLogin.dunet")
     fun doLogin(
-        @Field("user_id") userId: String,
-        @Field("user_password") userPassword: String,
-        @Field("group_cd") groupCode: String
+        @Field("user_id") userId:String,
+        @Field("user_password") userPassword:String,
+        @Field("group_cd") groupCode:String
     ): Call<User>
 
     @GET("lms/myLecture/doListView.dunet")
     fun doListView(
-        @Query("mnid") mnid: String
+        @Query("mnid") mnid:String
+    ): Call<ResponseBody>
+
+    @GET("/lms/class/classroom/doViewClassRoom.dunet")
+    fun goClassRoom(
+        @Query("mnid") mnid:String,
+        @Query("course_id") course_id:String,
+        @Query("class_no") class_no:String,
+        @Query("change_role_no") change_role_no:String
     ): Call<ResponseBody>
 
     companion object {
         private const val BASE_URL: String = "https://ctl.kduniv.ac.kr"
 
-        private val cookieManager = CookieManager()
+        private val cookieManager:CookieManager by lazy { CookieManager() }
 
         fun create(): CtlApi {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -39,7 +47,7 @@ interface CtlApi {
 
             val client = OkHttpClient.Builder()
                 .cookieJar(JavaNetCookieJar(cookieManager))
-                .addInterceptor(httpLoggingInterceptor)
+//                .addInterceptor(httpLoggingInterceptor)
                 .build()
 
             return Retrofit.Builder()

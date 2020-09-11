@@ -30,9 +30,12 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun doLogin(userId: String, userPw: String) {
-        viewmodel.Login(userId, userPw).observe(this, Observer {
-            if (it) {
+        viewmodel.Login(userId, userPw).observe(this, Observer {result->
+            if (result["userName"]?.isNotEmpty()!!) {
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("userName",result["userName"])
+                intent.putExtra("userNo",result["userNo"])
+                intent.putExtra("deptNm",result["deptNm"])
                 startActivity(intent)
                 finish()
             } else {

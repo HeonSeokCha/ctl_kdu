@@ -1,39 +1,63 @@
 package com.chs.ctl_kdu.ui
 
+import android.app.Application
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chs.ctl_kdu.R
-import com.chs.ctl_kdu.retrofitServices.CtlApi
+import com.chs.ctl_kdu.adapter.ClassRoomAdapter
+import com.chs.ctl_kdu.adapter.dto.ClassRoom
+import com.chs.ctl_kdu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
-import org.jsoup.Jsoup
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewmodel:MainViewModel
+    private lateinit var ClassRoomAdapter: ClassRoomAdapter
+    private lateinit var classList:MutableList<ClassRoom>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewmodel = ViewModelProvider.AndroidViewModelFactory.getInstance(Application())
+            .create(MainViewModel::class.java)
+        initView()
+        initRecyclerView()
+    }
 
-        val api = CtlApi.create()
 
-        btn_OK.setOnClickListener {
-            api.doListView("201008840728").enqueue(object: Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    val parse = Jsoup.parse(response.toString())
-                    Log.d("Success", parse.toString())
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("Failed",t.localizedMessage)
-                }
-            })
+    private fun initView(){
+        if(intent.hasExtra("userName")){
+            userName.text = intent.getStringExtra("userName")
+            userNo.text = intent.getStringExtra("userNo")
+            userDeptName.text = intent.getStringExtra("deptNm")
         }
+    }
+
+    private fun initRecyclerView(){
+        classList = mutableListOf()
+        ClassRoomAdapter = ClassRoomAdapter(classList){course_id,class_no->
+            val intent = Intent(this,ClassRoomActivity::class.java)
+            intent.putExtra("course_id",course_id)
+            intent.putExtra("class_no",class_no)
+            startActivity(intent)
+        }
+        Rv_classRoom.apply {
+            this.layoutManager = LinearLayoutManager(this@MainActivity)
+            this.adapter = ClassRoomAdapter
+            this.setHasFixedSize(true)
+        }
+        getList()
+    }
+
+    private fun getList(){
+        viewmodel.getClassRoom().observe(this, Observer { list->
+            if(list.isNotEmpty()){
+                classList.addAll(list)
+                ClassRoomAdapter.notifyDataSetChanged()
+            }
+        })
     }
 }
