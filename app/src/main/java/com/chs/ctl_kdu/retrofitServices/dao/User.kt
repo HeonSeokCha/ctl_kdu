@@ -1,11 +1,11 @@
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class User (
     @SerializedName("userMap")
     val userMap: UserMap,
 )
 
-data class UserMap(
+data class UserMap (
     @SerializedName("user_no")
     val userNo: String = "",
     @SerializedName("user_name")
