@@ -11,8 +11,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel:ViewModel() {
-    val api = CtlApi.create()
+class MainViewModel: ViewModel() {
+    private val api = CtlApi.create()
 
     fun getClassRoom(): LiveData<List<ClassRoom>> {
         val ret = MutableLiveData<List<ClassRoom>>()

@@ -13,8 +13,8 @@ import retrofit2.Response
 class LogInViewModel:ViewModel(){
     private val api = CtlApi.create()
 
-    fun Login(userId: String, userPw: String): LiveData<Map<String,String>> {
-        val ret = MutableLiveData<Map<String,String>>()
+    fun Login(userId: String, userPw: String): LiveData<Map<String, String>> {
+        val ret = MutableLiveData<Map<String, String>>()
         api.doLogin(userId, userPw, "UN").enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
