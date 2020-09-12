@@ -17,6 +17,7 @@ class ClassRoomViewModel:ViewModel() {
 
     fun getListView(course_id: String, class_no: String): LiveData<List<Content>>{
         val ret = MutableLiveData<List<Content>>()
+
         api.goClassRoom("201008254671", course_id, class_no,"3")
             .enqueue(object: Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
