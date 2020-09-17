@@ -1,4 +1,4 @@
-package com.chs.ctl_kdu.adapter.dto
+package com.chs.ctl_kdu.dto
 
 
 data class ClassRoom(

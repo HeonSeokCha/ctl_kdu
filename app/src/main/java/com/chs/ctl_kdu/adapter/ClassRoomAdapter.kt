@@ -3,7 +3,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chs.ctl_kdu.R
-import com.chs.ctl_kdu.adapter.dto.ClassRoom
+import com.chs.ctl_kdu.dto.ClassRoom
 import com.chs.ctl_kdu.databinding.ItemClassroomBinding
 
 class ClassRoomAdapter(

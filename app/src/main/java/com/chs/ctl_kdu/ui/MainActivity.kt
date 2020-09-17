@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chs.ctl_kdu.R
 import com.chs.ctl_kdu.adapter.ClassRoomAdapter
-import com.chs.ctl_kdu.adapter.dto.ClassRoom
+import com.chs.ctl_kdu.dto.ClassRoom
 import com.chs.ctl_kdu.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 

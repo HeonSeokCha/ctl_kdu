@@ -1,9 +1,10 @@
 package com.chs.ctl_kdu.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chs.ctl_kdu.adapter.dto.ClassRoom
+import com.chs.ctl_kdu.dto.ClassRoom
 import com.chs.ctl_kdu.retrofitServices.CtlApi
 import okhttp3.ResponseBody
 import org.jsoup.Jsoup
@@ -23,7 +24,8 @@ class MainViewModel: ViewModel() {
                     val doc = Jsoup.parse(response.body()!!.string())
                     with(doc.select("li.box_li")) {
                         for(i in this.indices){
-                            ret.value = listOf(ClassRoom(
+                            ret.value = listOf(
+                                ClassRoom(
                                 course_id = this[i].select("div.accordion a").attr("href").split("'")[1],
                                 class_no = this[i].select("div.accordion a").attr("href").split("'")[3],
                                 title = this[i].select("div.accordion a strong").text(),

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.chs.ctl_kdu.adapter.dto.Content
+import com.chs.ctl_kdu.dto.Content
 import com.chs.ctl_kdu.retrofitServices.CtlApi
 import okhttp3.ResponseBody
 import org.jsoup.Jsoup
@@ -29,16 +29,18 @@ class ClassRoomViewModel:ViewModel() {
                                     Content(
                                         subject = this[i].select("a.subject").text().trim(),
                                         date = this[i].select("span.set_cont li:first-child").text().trim(),
-                                        total_time = this[i].select("span.total_tile").text().trim(),
+                                        total_time = this[i].select("span.total_time").text().trim(),
                                     )
                                 )
                             }
                         }
                     }
+                    Log.d("Error",response.message())
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     ret.value = listOf(Content())
+                    Log.d("Error",t.localizedMessage)
                 }
             })
         return ret
