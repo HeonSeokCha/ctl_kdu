@@ -20,12 +20,12 @@ class MainViewModel: ViewModel() {
 
         api.doListView("201008840728").enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if(response.isSuccessful){
+                if(response.isSuccessful) {
                     val doc = Jsoup.parse(response.body()!!.string())
                     with(doc.select("li.box_li")) {
                         for(i in this.indices){
                             ret.value = listOf(
-                                ClassRoom(
+                                ClassRoom (
                                 course_id = this[i].select("div.accordion a").attr("href").split("'")[1],
                                 class_no = this[i].select("div.accordion a").attr("href").split("'")[3],
                                 title = this[i].select("div.accordion a strong").text(),
